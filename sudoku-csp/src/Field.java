@@ -34,6 +34,8 @@ public class Field {
     return value;
   }
 
+  //public List<Field> getNeighbours() {
+
   public void setValue(int value) {
     this.value = value;
   }

@@ -145,4 +145,15 @@ public class Sudoku {
   public Field[][] getBoard(){
     return board;
   }
+
+  public void updateDomains() {
+    for(int i = 0; i < 9; i++) {
+      for(int j = 0; j < 9; j++) {
+        Field f = this.board[i][j];
+        if (f.getValue() != 0) {
+          f.updateNeighbourValues(f.getValue());
+        }
+      }
+    }
+  }
 }

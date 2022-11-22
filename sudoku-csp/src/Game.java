@@ -21,6 +21,16 @@ public class Game {
    */
   public boolean solve() {
     // TODO: implement AC-3
+
+    this.sudoku.updateDomains();
+
+    /* 
+    sudoku.getBoard()[0][5].updateNeighbourValues(6);
+    sudoku.getBoard()[2][8].updateNeighbourValues(6);
+    sudoku.getBoard()[8][3].updateNeighbourValues(6);
+    System.out.println(sudoku.getBoard()[0][1].getDomain());
+    */
+
     return true;
   }
 
