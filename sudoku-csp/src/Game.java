@@ -7,6 +7,11 @@ public class Game {
 
   public void showSudoku() {
     System.out.println(sudoku);
+    /*
+    for (Field f: this.sudoku.getBoard()[1][7].getNeighbours()) {
+      System.out.println(f.getValue());
+    }
+    System.out.println(this.sudoku.getBoard()[6][0].getValue()); */
   }
 
   /**

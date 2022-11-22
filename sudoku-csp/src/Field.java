@@ -38,6 +38,12 @@ public class Field {
     this.value = value;
   }
 
+  public void updateNeighbourValues(int value) {
+    for(Field f: this.neighbours) {
+      f.removeFromDomain(value);
+    }
+  }
+
   /*
    * =====================
    *  NEIGHBOUR FUNCTIONS

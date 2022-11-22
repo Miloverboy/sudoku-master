@@ -1,10 +1,11 @@
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Sudoku {
-  private Field[][] board;
+  private Field[][] board;    //Field[ROW][COLUMN]
 
   Sudoku(String filename) {
     this.board = readsudoku(filename);
@@ -70,8 +71,62 @@ public class Sudoku {
    * @param grid
    */
   private static void addNeighbours(Field[][] grid) {
-    // TODO: for each field, add its neighbours
+    for (int i = 0; i < 3; i++) {                 // i = row of 3x3 block we are considering.
+      for (int j = 0; j < 3; j++){                // j = column of 3x3 block we are considering.
+        for (int k = 0; k < 3; k++) {             // k = row of field within 3x3 block.
+          for (int l = 0; l < 3; l++) {           // l = column of field within 3x3 block
+            Field f = grid[3*i + k][3*j + l];     // f = the field to which we will add the neighbours.
+            ArrayList<Field> neighbours = new ArrayList<Field>();
+
+            for(int m = 0; m < 3; m++) {
+              for (int n = 0; n < 3; n++) {
+                Field g = grid[3*i + m][3*j + n]; // g = a neighbor in the same 3x3 block as f.
+                if (g != f) {
+                  neighbours.add(g);
+                }
+              }
+            }
+
+            // add all neighbours from the same collumn:
+
+            for(int m = 0; m < 3; m++) {
+              if (m != i) {
+                for (int n = 0; n < 3; n++) {
+                  Field g = grid[3*m + n][3*j + l];
+                  neighbours.add(g);
+                }
+              }
+            }
+
+            // add all neighbours from the same row:
+
+            for(int m = 0; m < 3; m++) {
+              if (m != j) {
+                for (int n = 0; n < 3; n++) {
+                  Field g = grid[3*i + k][3*m + n];
+                  neighbours.add(g);
+                }
+              }
+            }
+
+            f.setNeighbours(neighbours);
+          }
+        }
+      }
+    }
+
   }
+
+  /**
+   * Adds a list of row-neighbours to each field, i.e., arcs to be satisfied
+   * @param grid
+   */
+  private static void addRowNeighbours(Field[][] grid) {
+    
+
+  }
+
+
 
   /**
 	 * Generates fileformat output
