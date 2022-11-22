@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -40,7 +41,7 @@ public class Sudoku {
 		String line = "";
 		Field[][] grid = new Field[9][9];
 		try {
-		FileInputStream inputStream = new FileInputStream(filename);
+		FileInputStream inputStream = new FileInputStream("sudoku-csp\\" + filename);
         Scanner scanner = new Scanner(inputStream);
         for(int i = 0; i < 9; i++) {
         	if(scanner.hasNext()) {
