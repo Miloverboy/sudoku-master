@@ -87,25 +87,31 @@ public class Sudoku {
               }
             }
 
-            // add all neighbours from the same collumn:
+            // add all neighbours from the same column:
+
+            ArrayList<Field> columnNeighbours = new ArrayList<Field>();
 
             for(int m = 0; m < 3; m++) {
-              if (m != i) {
-                for (int n = 0; n < 3; n++) {
-                  Field g = grid[3*m + n][3*j + l];
+              for (int n = 0; n < 3; n++) {
+                Field g = grid[3*m + n][3*j + l];
+                if (m != i) {     // to prevent duplicates
                   neighbours.add(g);
                 }
+                columnNeighbours.add(g);
               }
             }
 
             // add all neighbours from the same row:
 
+            ArrayList<Field> rowNeighbours = new ArrayList<Field>();
+
             for(int m = 0; m < 3; m++) {
-              if (m != j) {
-                for (int n = 0; n < 3; n++) {
-                  Field g = grid[3*i + k][3*m + n];
+              for (int n = 0; n < 3; n++) {
+                Field g = grid[3*i + k][3*m + n];
+                if (m != j) {     // to prevent duplicates
                   neighbours.add(g);
                 }
+                rowNeighbours.add(g);
               }
             }
 
@@ -125,6 +131,7 @@ public class Sudoku {
     
 
   }
+  
 
 
 
@@ -155,5 +162,8 @@ public class Sudoku {
         }
       }
     }
+  }
+
+  public static void setConstraints() {
   }
 }

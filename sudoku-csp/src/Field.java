@@ -5,6 +5,8 @@ public class Field {
   private int value = 0;
   private List<Integer> domain;
   private List<Field> neighbours; //A list of all fields that this field is constrained by
+  private List<Field> rowNeighbours;
+  private List<Field> columnNeighbours;
 
   /*
    * ==============
@@ -33,8 +35,6 @@ public class Field {
   public int getValue() {
     return value;
   }
-
-  //public List<Field> getNeighbours() {
 
   public void setValue(int value) {
     this.value = value;

@@ -22,7 +22,7 @@ public class Game {
   public boolean solve() {
     // TODO: implement AC-3
 
-    this.sudoku.updateDomains();
+    this.sudoku.setConstraints();
 
     /* 
     sudoku.getBoard()[0][5].updateNeighbourValues(6);
