@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Game {
   private Sudoku sudoku;
 
@@ -23,6 +26,14 @@ public class Game {
     // TODO: implement AC-3
 
     this.sudoku.updateDomains();
+    //print domains
+    Field[][] fields = sudoku.getBoard();
+    for(Field[] f : fields){
+      for(Field field :f){
+        
+          System.out.println(field.getDomain().toString());
+      }
+     }
 
     /* 
     sudoku.getBoard()[0][5].updateNeighbourValues(6);
@@ -41,6 +52,26 @@ public class Game {
    */
   public boolean validSolution() {
     // TODO: implement validSolution function
+    
+    Field[][] fields = sudoku.getBoard();
+    for(Field[] f : fields){
+      for(Field field :f){
+        List<Field> neigbs = field.getNeighbours();
+          for(Field n: neigbs){
+            if(n.getValue() == field.getValue()){
+              return false;
+            }
+
+          }
+      }
+     }
     return true;
   }
+
+  public boolean checkIfTwoEqualDomains(List<Integer> domain1, List<Integer> domain2){
+      return domain1.equals(domain2);
+ }
 }
+
+
+ 
