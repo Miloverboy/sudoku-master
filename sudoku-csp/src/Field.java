@@ -55,8 +55,24 @@ public class Field {
     this.neighbours = neighbours;
   }
 
+  public void setRowNeighbours(List<Field> rowNeighbours) {
+    this.rowNeighbours = rowNeighbours;
+  }
+
+  public void setColumnNeighbours(List<Field> columnNeighbours) {
+    this.columnNeighbours = columnNeighbours;
+  }
+
   public List<Field> getNeighbours() {
     return neighbours;
+  }
+
+  public List<Field> getRowNeighbours() {
+    return rowNeighbours;
+  }
+
+  public List<Field> getColumnNeighbours() {
+    return columnNeighbours;
   }
 
   public List<Field> getOtherNeighbours(Field b) {
@@ -106,4 +122,8 @@ public class Field {
   public String toString() {
     return (value==0)? "." : String.valueOf(value);
   }
+
+public List<Field> getBlockNeighbours() {
+    return null;
+}
 }

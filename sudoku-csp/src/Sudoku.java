@@ -2,13 +2,18 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Sudoku {
   private Field[][] board;    //Field[ROW][COLUMN]
+  private ArrayList<Constraint> constraints;
+  private ArrayList<Constraint> advancedConstraints;
 
   Sudoku(String filename) {
     this.board = readsudoku(filename);
+    this.constraints = new ArrayList<Constraint>();
+    this.advancedConstraints = new ArrayList<Constraint>();
   }
 
   @Override
@@ -81,9 +86,10 @@ public class Sudoku {
             for(int m = 0; m < 3; m++) {
               for (int n = 0; n < 3; n++) {
                 Field g = grid[3*i + m][3*j + n]; // g = a neighbor in the same 3x3 block as f.
-                if (g != f) {
+                neighbours.add(g);
+                /*if (g != f) {
                   neighbours.add(g);
-                }
+                }*/
               }
             }
 
@@ -94,9 +100,9 @@ public class Sudoku {
             for(int m = 0; m < 3; m++) {
               for (int n = 0; n < 3; n++) {
                 Field g = grid[3*m + n][3*j + l];
-                if (m != i) {     // to prevent duplicates
+                /*if (m != i) {     // to prevent duplicates
                   neighbours.add(g);
-                }
+                }*/
                 columnNeighbours.add(g);
               }
             }
@@ -108,14 +114,16 @@ public class Sudoku {
             for(int m = 0; m < 3; m++) {
               for (int n = 0; n < 3; n++) {
                 Field g = grid[3*i + k][3*m + n];
-                if (m != j) {     // to prevent duplicates
+                /*if (m != j) {     // to prevent duplicates
                   neighbours.add(g);
-                }
+                }*/
                 rowNeighbours.add(g);
               }
             }
 
             f.setNeighbours(neighbours);
+            f.setColumnNeighbours(columnNeighbours);
+            f.setRowNeighbours(rowNeighbours);
           }
         }
       }
@@ -164,6 +172,41 @@ public class Sudoku {
     }
   }
 
-  public static void setConstraints() {
+  public void setConstraints() {
+    for(int i = 0; i < 9; i++) {  // add basic row- and column-constraints to list
+      constraints.add(new NoDuplicatesC(board[i][0].getRowNeighbours()));
+      constraints.add(new NoDuplicatesC(board[0][i].getColumnNeighbours()));
+      constraints.add(new OneOfEachC(board[i][0].getRowNeighbours()));
+      constraints.add(new OneOfEachC(board[0][i].getRowNeighbours()));
+      advancedConstraints.add(new OneOfEachDomainC(board[i][0].getRowNeighbours()));
+      advancedConstraints.add(new OneOfEachDomainC(board[0][i].getRowNeighbours()));
+    }
+    for(int i = 0; i < 3; i++) {
+      for(int j = 0; j < 3; j++) {
+        constraints.add(new NoDuplicatesC(board[i*3][j*3].getNeighbours()));
+        constraints.add(new OneOfEachC(board[i*3][j*3].getNeighbours()));
+        advancedConstraints.add(new OneOfEachDomainC(board[i*3][j*3].getNeighbours()));
+      }
+    }
+  }
+
+  public ArrayList<Constraint> getConstraints() {
+    return this.constraints;
+  }
+
+  public ArrayList<Constraint> getAdvancedConstraints() {
+    return this.advancedConstraints;
+  }
+
+  public boolean removeConstraint(Constraint c) {
+    if (this.constraints.contains(c)) {
+      this.constraints.remove(c);
+      return true;
+    }
+    if (this.advancedConstraints.contains(c)) {
+      this.constraints.remove(c);
+      return true;
+    }
+    return false;
   }
 }

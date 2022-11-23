@@ -1,11 +1,12 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class NoDuplicatesC implements Constraint {
     
-    private ArrayList<Field> members;
+    private List<Field> members;
     private boolean complete;
 
-    public NoDuplicatesC(ArrayList<Field> members) {
+    public NoDuplicatesC(List<Field> members) {
         this.members = members;
         complete = false;
         this.holds();           // maybe the constraint is finished from the start.
@@ -23,7 +24,7 @@ public class NoDuplicatesC implements Constraint {
 
         for(int i = 0; i < 9; i++) {
             int value = members.get(i).getValue();
-            if(value == lastValue) {
+            if(value == lastValue && value != 0) {
                 return false;
             }
             lastValue = value;

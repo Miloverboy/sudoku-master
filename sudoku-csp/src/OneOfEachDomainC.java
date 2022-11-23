@@ -1,41 +1,34 @@
-import java.util.ArrayList;
 import java.util.List;
 
-public class OneOfEachC implements Constraint {
-    
+public class OneOfEachDomainC implements Constraint{
+
     private List<Field> members;
     private boolean complete;
 
-    public OneOfEachC(List<Field> members) {
+    public OneOfEachDomainC(List<Field> members) {
         this.members = members;
-        complete = false;
-        this.holds();           // maybe the constraint is finished from the start.
+        complete = false;  
     }
 
+    @Override
     public boolean isComplete() {
         return this.complete;
     }
 
+    @Override
     public boolean holds() {
-
-        members.sort( (a,b) -> a.getValue() - b.getValue());    // sort all members from small to big based on value.
-
-        for (int i = 0; i < 9; i++) {
-            if (members.get(i).getValue() != i + 1) {           // check if all values are present
-                return false;
-            }
-        }
-        this.complete = true;
+        // TODO Auto-generated method stub
         return true;
     }
 
+    @Override
     public boolean adjustDomains() {
         boolean changedSomething = false;
         for(int i = 1; i < 10; i++) {
             Field lastMemberWithI = null;
             int iCount = 0;
             for (Field member: members) {
-                if (member.getValue() == i) {
+                if (member.getDomain().contains(Integer.valueOf(i))) {
                     lastMemberWithI = member;
                     iCount++;
                 }
@@ -50,4 +43,5 @@ public class OneOfEachC implements Constraint {
         }
         return changedSomething;
     }
+    
 }
