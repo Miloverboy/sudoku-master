@@ -48,6 +48,26 @@ public class OneOfEachC implements Constraint {
             }
             
         }
+        boolean complete = true;
+        if (changedSomething) {
+            for (Field member : members) {
+                if (member.getValue() == 0) {
+                    complete = false;
+                }
+            }
+        }
+
+        this.complete = complete;
+
         return changedSomething;
+    }
+
+    public int lowestDomainSize() {
+        int lowestDomainSize = Integer.MAX_VALUE;
+        for (Field member: members) {
+            if (member.getDomainSize() > lowestDomainSize && member.getValue() == 0)
+                lowestDomainSize = member.getDomainSize();
+        }
+        return lowestDomainSize;
     }
 }

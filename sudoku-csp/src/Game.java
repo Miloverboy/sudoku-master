@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 public class Game {
   private Sudoku sudoku;
@@ -21,19 +23,32 @@ public class Game {
    * 
    * @return true if the constraints can be satisfied, else false
    */
+
   public boolean solve() {
     // TODO: implement AC-3
 
     this.sudoku.setConstraints();
 
-    /* 
-    sudoku.getBoard()[0][5].updateNeighbourValues(6);
-    sudoku.getBoard()[2][8].updateNeighbourValues(6);
-    sudoku.getBoard()[8][3].updateNeighbourValues(6);
-    System.out.println(sudoku.getBoard()[0][1].getDomain());
-    */
+    LinkedList<Constraint> PrioQ = new LinkedList<Constraint>();
+    PrioQ.addAll(this.sudoku.getConstraints());
+    PrioQ.sort( (a,b) -> a.lowestDomainSize() - b.lowestDomainSize());
+    Constraint first = PrioQ.getFirst();
+    while (PrioQ.size() > 0) {
+      Constraint c = PrioQ.remove();
+      boolean changed = c.adjustDomains();
+      if (false) 
+        return false;
+      if (!c.isComplete()) {
+        PrioQ.addLast(c);
+      }
+      if (c == first) {
 
-    //while(this.sudoku.getConstraints().size() > 0) {
+        this.showSudoku();
+      }
+    }
+
+    return true;
+/*
     for(int i = 0; i < 100; i++) {
       for (Constraint c: this.sudoku.getConstraints()) {
         if(c.adjustDomains()) {
@@ -57,7 +72,7 @@ public class Game {
       }
     }
 
-    return true;
+    return true; */
   }
 
   /**

@@ -43,5 +43,15 @@ public class OneOfEachDomainC implements Constraint{
         }
         return changedSomething;
     }
+
+    public int lowestDomainSize() {
+        // TODO Auto-generated method stub
+        int lowestDomainSize = Integer.MAX_VALUE;
+        for (Field member: members) {
+            if (member.getDomainSize() > lowestDomainSize && member.getValue() == 0)
+                lowestDomainSize = member.getDomainSize();
+        }
+        return lowestDomainSize;
+    }
     
 }

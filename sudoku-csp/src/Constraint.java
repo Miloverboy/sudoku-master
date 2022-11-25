@@ -14,4 +14,6 @@ interface Constraint {
    * Adjusts all domains of all members of this constraint according to the constraint itself
    */
     public boolean adjustDomains();
+
+    public int lowestDomainSize();
 }

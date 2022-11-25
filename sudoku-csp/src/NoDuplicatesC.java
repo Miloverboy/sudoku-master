@@ -32,14 +32,13 @@ public class NoDuplicatesC implements Constraint {
                 zeroValuePresent = true;
             }
         }
-        if (!zeroValuePresent) {
-            this.complete = true;
-        }
+        this.complete = !zeroValuePresent;
         return true;
     }
 
     public boolean adjustDomains() {
         boolean changedSomething = false;
+        boolean zeroValuePresent = false;
         for (Field member: members) {
             if (member.getValue() != 0) {
                 for (Field f: members) {
@@ -47,9 +46,21 @@ public class NoDuplicatesC implements Constraint {
                         changedSomething = f.removeFromDomain(member.getValue());
                     }
                 }
+            } else {
+                zeroValuePresent = true;
             }
         }
+        this.complete = !zeroValuePresent;
         return changedSomething;
+    }
+
+    public int lowestDomainSize() {
+        int lowestDomainSize = Integer.MAX_VALUE;
+        for (Field member: members) {
+            if (member.getDomainSize() > lowestDomainSize && member.getValue() == 0)
+                lowestDomainSize = member.getDomainSize();
+        }
+        return lowestDomainSize;
     }
 
 
