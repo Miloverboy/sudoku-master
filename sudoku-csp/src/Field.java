@@ -7,6 +7,7 @@ public class Field {
   private List<Field> neighbours; //A list of all fields that this field is constrained by
   private List<Field> rowNeighbours;
   private List<Field> columnNeighbours;
+  private List<Arc> arcs;
 
   /*
    * ==============
@@ -19,12 +20,14 @@ public class Field {
     this.domain = new ArrayList<>(9);
     for (int i = 1; i < 10; i++)
       this.domain.add(i);
+    this.arcs = new ArrayList<Arc>();
   }
 
   // Constructor in case the field is known, i.e., it contains a value
   Field(int initValue) {
     this.value = initValue;
     this.domain = new ArrayList<>();
+    this.arcs = new ArrayList<Arc>();
   }
 
   /*
@@ -125,5 +128,13 @@ public class Field {
 
 public List<Field> getBlockNeighbours() {
     return null;
+}
+
+public void addArch(Arc arc) {
+  this.arcs.add(arc);
+}
+
+public List<Arc> getArcs() {
+  return this.arcs;
 }
 }

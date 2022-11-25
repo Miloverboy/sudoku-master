@@ -86,10 +86,9 @@ public class Sudoku {
             for(int m = 0; m < 3; m++) {
               for (int n = 0; n < 3; n++) {
                 Field g = grid[3*i + m][3*j + n]; // g = a neighbor in the same 3x3 block as f.
-                neighbours.add(g);
-                /*if (g != f) {
+                if (g != f) {
                   neighbours.add(g);
-                }*/
+                }
               }
             }
 
@@ -100,10 +99,10 @@ public class Sudoku {
             for(int m = 0; m < 3; m++) {
               for (int n = 0; n < 3; n++) {
                 Field g = grid[3*m + n][3*j + l];
-                /*if (m != i) {     // to prevent duplicates
+                if (m != i) {     // to prevent duplicates
                   neighbours.add(g);
-                }*/
-                columnNeighbours.add(g);
+                }
+                
               }
             }
 
@@ -114,10 +113,10 @@ public class Sudoku {
             for(int m = 0; m < 3; m++) {
               for (int n = 0; n < 3; n++) {
                 Field g = grid[3*i + k][3*m + n];
-                /*if (m != j) {     // to prevent duplicates
+                if (m != j) {     // to prevent duplicates
                   neighbours.add(g);
-                }*/
-                rowNeighbours.add(g);
+                }
+                
               }
             }
 
@@ -208,5 +207,20 @@ public class Sudoku {
       return true;
     }
     return false;
+  }
+
+  public ArrayList<Arc> setArcs() {
+    ArrayList<Arc> arcs = new ArrayList<Arc>();
+    for(int i = 0; i < 9; i++) {
+      for(int j = 0; j < 9; j++) {
+      Field f = this.board[i][j];
+        for (Field neighbour: f.getNeighbours()) {
+          Arc arc = new Arc(f, neighbour);
+          arcs.add(arc);
+          f.addArch(arc);
+        }
+      }
+    }
+    return arcs;
   }
 }

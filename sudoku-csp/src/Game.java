@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 
 public class Game {
   private Sudoku sudoku;
@@ -24,38 +25,33 @@ public class Game {
   public boolean solve() {
     // TODO: implement AC-3
 
-    this.sudoku.setConstraints();
+    ArrayList<Arc> arcs = this.sudoku.setArcs();
 
-    /* 
-    sudoku.getBoard()[0][5].updateNeighbourValues(6);
-    sudoku.getBoard()[2][8].updateNeighbourValues(6);
-    sudoku.getBoard()[8][3].updateNeighbourValues(6);
-    System.out.println(sudoku.getBoard()[0][1].getDomain());
-    */
+    PriorityQueue<Arc> prioQ = new PriorityQueue<Arc>(arcs.size(), (a,b) -> a.getDomainSize() - b.getDomainSize());
+    prioQ.addAll(arcs);
 
-    //while(this.sudoku.getConstraints().size() > 0) {
-    for(int i = 0; i < 100; i++) {
-      for (Constraint c: this.sudoku.getConstraints()) {
-        if(c.adjustDomains()) {
-          if(c.isComplete()) {
-            if(!this.sudoku.removeConstraint(c)) {
-              System.out.println("E: Constraint didn't exist");
-            }
-          }
-        }
+    while (prioQ.size() > 0) {
+      Arc arc = prioQ.remove();
+      boolean hasChanged = arc.testValues();
+      if (arc.getMainField().getDomainSize() == 0) {
+        return false;
       }
-      if (true) {
-        for (Constraint c: this.sudoku.getAdvancedConstraints()) {
-          if(c.adjustDomains()) {
-            if(c.isComplete()) {
-              if(!this.sudoku.removeConstraint(c)) {
-                System.out.println("E: Constraint didn't exist");
+      if (hasChanged) {
+        for (Field neighbour : arc.getMainField().getNeighbours()) {
+          for(Arc arc2 : neighbour.getArcs()) {
+            if (arc2.getSecondField().equals(arc.getMainField())) {
+              if (!prioQ.contains(arc2)) {
+                prioQ.add(arc2);
               }
             }
           }
         }
       }
     }
+
+  
+
+    
 
     return true;
   }
