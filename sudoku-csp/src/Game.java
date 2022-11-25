@@ -40,7 +40,9 @@ public class Game {
       PrioQ.sort( (a,b) -> a.lowestDomainSize() - b.lowestDomainSize());
     else if (this.heuristic == "Degree")
       PrioQ.sort( (a,b) -> a.maxDependentVariable(sudoku) - b.maxDependentVariable(sudoku));
-    Constraint first = PrioQ.getFirst();
+    Constraint last = PrioQ.getLast();
+    String sudokuString = sudoku.toString();
+
     while (PrioQ.size() > 0) {
       Constraint c = PrioQ.remove();
       boolean changed = c.adjustDomains();
@@ -49,9 +51,13 @@ public class Game {
       if (!c.isComplete()) {
         PrioQ.addLast(c);
       }
-      if (c == first) {
-
+      if (c == last) {
         this.showSudoku();
+        if (sudoku.toString().equals(sudokuString)) {
+          PrioQ.clear();  // if nothing changed after all constraints have been used, we can't find a solution :(
+          break;
+        }
+        sudokuString = sudoku.toString();
       }
     }
 

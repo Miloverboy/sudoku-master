@@ -1,6 +1,6 @@
 public class App {
     public static void main(String[] args) throws Exception {
-        start("Sudoku2.txt");
+        start("Sudoku5.txt");
     }
 
     /**
@@ -12,7 +12,9 @@ public class App {
         Game game1 = new Game(new Sudoku(filePath));
         game1.showSudoku();
         game1.setHeuristic("MRV");
-        game1.setHeuristic("Degree");
+        //game1.setHeuristic("Degree");
+
+        final long startTime = System.currentTimeMillis();
 
         if (game1.solve() && game1.validSolution()){
             System.out.println("Solved!");
@@ -20,6 +22,12 @@ public class App {
         else{
             System.out.println("Could not solve this sudoku :(");
         }
+
+        final long endTime = System.currentTimeMillis();
+
+
         game1.showSudoku();
+
+        System.out.println("\n Total execution time: " + (endTime - startTime));
     }
 }
