@@ -51,13 +51,16 @@ public class Game {
       if (!c.isComplete()) {
         PrioQ.addLast(c);
       }
-      if (c == last) {
+      if (c == last) {  // This is some ugly code to make sure we don't get into an endless loop:
         this.showSudoku();
         if (sudoku.toString().equals(sudokuString)) {
           PrioQ.clear();  // if nothing changed after all constraints have been used, we can't find a solution :(
           break;
         }
         sudokuString = sudoku.toString();
+        if (c.isComplete()) {
+          last = PrioQ.getLast();
+        }
       }
     }
 
