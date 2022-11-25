@@ -178,14 +178,11 @@ public class Sudoku {
       constraints.add(new NoDuplicatesC(board[0][i].getColumnNeighbours()));
       constraints.add(new OneOfEachC(board[i][0].getRowNeighbours()));
       constraints.add(new OneOfEachC(board[0][i].getRowNeighbours()));
-      advancedConstraints.add(new OneOfEachDomainC(board[i][0].getRowNeighbours()));
-      advancedConstraints.add(new OneOfEachDomainC(board[0][i].getRowNeighbours()));
     }
     for(int i = 0; i < 3; i++) {
       for(int j = 0; j < 3; j++) {
         constraints.add(new NoDuplicatesC(board[i*3][j*3].getNeighbours()));
         constraints.add(new OneOfEachC(board[i*3][j*3].getNeighbours()));
-        advancedConstraints.add(new OneOfEachDomainC(board[i*3][j*3].getNeighbours()));
       }
     }
   }
