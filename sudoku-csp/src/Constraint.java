@@ -1,3 +1,5 @@
+import java.util.List;
+
 interface Constraint {
 
     /**
@@ -16,4 +18,8 @@ interface Constraint {
     public boolean adjustDomains();
 
     public int lowestDomainSize();
+
+    public int maxDependentVariable(Sudoku sudoku);
+
+    public List<Field> getMembers();
 }

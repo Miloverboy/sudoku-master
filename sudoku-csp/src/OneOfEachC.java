@@ -17,15 +17,18 @@ public class OneOfEachC implements Constraint {
     }
 
     public boolean holds() {
+        
+        members.sort( (a,b) -> a.getValue() - b.getValue());
+        int lastValue = -1;
 
-        members.sort( (a,b) -> a.getValue() - b.getValue());    // sort all members from small to big based on value.
-
-        for (int i = 0; i < 9; i++) {
-            if (members.get(i).getValue() != i + 1) {           // check if all values are present
+        for(int i = 0; i < 9; i++) {
+            int value = members.get(i).getValue();
+            if(value == lastValue && value != 0) {
                 return false;
             }
+            lastValue = value;
+
         }
-        this.complete = true;
         return true;
     }
 
@@ -69,5 +72,26 @@ public class OneOfEachC implements Constraint {
                 lowestDomainSize = member.getDomainSize();
         }
         return lowestDomainSize;
+    }
+
+    public int maxDependentVariable(Sudoku sudoku) {
+        int maxConstraints = Integer.MIN_VALUE;
+        int constraints;
+
+        for (Field member : members) {
+            constraints = 0;
+            for (Constraint c : sudoku.getConstraints()) {
+                if (c.getMembers().contains(member) && !c.isComplete())
+                    constraints++;
+            }
+            if (constraints > maxConstraints)
+                maxConstraints = constraints;
+        }
+        return maxConstraints;
+    }
+
+    
+    public List<Field> getMembers() {
+        return this.members;
     }
 }

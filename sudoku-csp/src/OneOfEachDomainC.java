@@ -15,9 +15,19 @@ public class OneOfEachDomainC implements Constraint{
         return this.complete;
     }
 
-    @Override
     public boolean holds() {
-        // TODO Auto-generated method stub
+        
+        members.sort( (a,b) -> a.getValue() - b.getValue());
+        int lastValue = -1;
+
+        for(int i = 0; i < 9; i++) {
+            int value = members.get(i).getValue();
+            if(value == lastValue && value != 0) {
+                return false;
+            }
+            lastValue = value;
+
+        }
         return true;
     }
 
@@ -53,5 +63,25 @@ public class OneOfEachDomainC implements Constraint{
         }
         return lowestDomainSize;
     }
+
+    public int maxDependentVariable(Sudoku sudoku) {
+        int maxConstraints = Integer.MIN_VALUE;
+        int constraints;
+
+        for (Field member : members) {
+            constraints = 0;
+            for (Constraint c : sudoku.getConstraints()) {
+                if (c.getMembers().contains(member) && !c.isComplete())
+                    constraints++;
+            }
+            if (constraints > maxConstraints)
+                maxConstraints = constraints;
+        }
+        return maxConstraints;
+    }
+
     
+    public List<Field> getMembers() {
+        return this.members;
+    }
 }

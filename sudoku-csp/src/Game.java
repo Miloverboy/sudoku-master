@@ -4,9 +4,14 @@ import java.util.PriorityQueue;
 
 public class Game {
   private Sudoku sudoku;
+  private String heuristic;
 
   Game(Sudoku sudoku) {
     this.sudoku = sudoku;
+  }
+
+  public void setHeuristic(String heuristic) {
+    this.heuristic = heuristic;
   }
 
   public void showSudoku() {
@@ -31,12 +36,15 @@ public class Game {
 
     LinkedList<Constraint> PrioQ = new LinkedList<Constraint>();
     PrioQ.addAll(this.sudoku.getConstraints());
-    PrioQ.sort( (a,b) -> a.lowestDomainSize() - b.lowestDomainSize());
+    if (this.heuristic == "MRV")
+      PrioQ.sort( (a,b) -> a.lowestDomainSize() - b.lowestDomainSize());
+    else if (this.heuristic == "Degree")
+      PrioQ.sort( (a,b) -> a.maxDependentVariable(sudoku) - b.maxDependentVariable(sudoku));
     Constraint first = PrioQ.getFirst();
     while (PrioQ.size() > 0) {
       Constraint c = PrioQ.remove();
       boolean changed = c.adjustDomains();
-      if (false) 
+      if (!c.holds()) 
         return false;
       if (!c.isComplete()) {
         PrioQ.addLast(c);

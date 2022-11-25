@@ -20,7 +20,6 @@ public class NoDuplicatesC implements Constraint {
         
         members.sort( (a,b) -> a.getValue() - b.getValue());
         int lastValue = -1;
-        boolean zeroValuePresent = false;
 
         for(int i = 0; i < 9; i++) {
             int value = members.get(i).getValue();
@@ -28,11 +27,8 @@ public class NoDuplicatesC implements Constraint {
                 return false;
             }
             lastValue = value;
-            if (value == 0) {
-                zeroValuePresent = true;
-            }
+
         }
-        this.complete = !zeroValuePresent;
         return true;
     }
 
@@ -63,6 +59,25 @@ public class NoDuplicatesC implements Constraint {
         return lowestDomainSize;
     }
 
+    public int maxDependentVariable(Sudoku sudoku) {
+        int maxConstraints = Integer.MIN_VALUE;
+        int constraints;
 
+        for (Field member : members) {
+            constraints = 0;
+            for (Constraint c : sudoku.getConstraints()) {
+                if (c.getMembers().contains(member) && !c.isComplete())
+                    constraints++;
+            }
+            if (constraints > maxConstraints)
+                maxConstraints = constraints;
+        }
+        return maxConstraints;
+    }
+
+    
+    public List<Field> getMembers() {
+        return this.members;
+    }
 
 }
