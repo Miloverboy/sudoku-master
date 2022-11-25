@@ -38,7 +38,7 @@ public class OneOfEachC implements Constraint {
             Field lastMemberWithI = null;
             int iCount = 0;
             for (Field member: members) {
-                if (member.getValue() == i) {
+                if (member.getDomain().contains(Integer.valueOf(i))) {
                     lastMemberWithI = member;
                     iCount++;
                 }
