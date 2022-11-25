@@ -45,7 +45,8 @@ public class Field {
 
   public void updateNeighbourValues(int value) {
     for(Field f: this.neighbours) {
-      f.removeFromDomain(value);
+      if (f.getValue() == 0)
+        f.removeFromDomain(value);
     }
   }
 
@@ -110,6 +111,7 @@ public class Field {
     // If there is only one value left in the domain, sets the value of the field to the last domain value.
     if (domain.size() == 1) {
       setValue(domain.get(0));
+      updateNeighbourValues(domain.get(0));
     }
     
     return b;

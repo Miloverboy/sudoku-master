@@ -213,11 +213,13 @@ public class Sudoku {
     ArrayList<Arc> arcs = new ArrayList<Arc>();
     for(int i = 0; i < 9; i++) {
       for(int j = 0; j < 9; j++) {
-      Field f = this.board[i][j];
-        for (Field neighbour: f.getNeighbours()) {
-          Arc arc = new Arc(f, neighbour);
-          arcs.add(arc);
-          f.addArch(arc);
+        Field f = this.board[i][j];
+        if (f.getDomainSize() > 0) {
+          for (Field neighbour: f.getNeighbours()) {
+            Arc arc = new Arc(f, neighbour);
+            arcs.add(arc);
+            f.addArch(arc);
+          }
         }
       }
     }

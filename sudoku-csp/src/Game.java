@@ -25,6 +25,8 @@ public class Game {
   public boolean solve() {
     // TODO: implement AC-3
 
+    this.sudoku.updateDomains();
+
     ArrayList<Arc> arcs = this.sudoku.setArcs();
 
     PriorityQueue<Arc> prioQ = new PriorityQueue<Arc>(arcs.size(), (a,b) -> a.getDomainSize() - b.getDomainSize());

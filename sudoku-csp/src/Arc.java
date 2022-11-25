@@ -1,3 +1,7 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Arc {
     
     private Field f1;
@@ -25,15 +29,20 @@ public class Arc {
             */
 
         Boolean changedSomething = false;
+
+        ArrayList<Integer> removeFromDomain = new ArrayList<Integer>();
         
         for(int value : f1.getDomain()) {
             if(f2.getDomain().contains(Integer.valueOf(value))) {
                 if (f2.getDomain().size() == 2) {
-                    f1.removeFromDomain(value);
+                    removeFromDomain.add(value);
                     changedSomething = true;
                 }
             }
         }
+        for (Integer i : removeFromDomain)
+            f1.removeFromDomain(i);
+            
         return changedSomething;
     }
 
